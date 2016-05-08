@@ -2,7 +2,7 @@ package xmlrpc
 
 import (
 	"bytes"
-	"encoding/xml"
+	// "encoding/xml"
 	"fmt"
 	"reflect"
 	"strconv"
@@ -17,7 +17,9 @@ func marshal(v interface{}) ([]byte, error) {
 	}
 
 	val := reflect.ValueOf(v)
-	return encodeValue(val)
+
+	ret, err := encodeValue(val)
+	return ret, err
 }
 
 func encodeValue(val reflect.Value) ([]byte, error) {
@@ -59,14 +61,14 @@ func encodeValue(val reflect.Value) ([]byte, error) {
 			b = []byte("<boolean>0</boolean>")
 		}
 	case reflect.String:
-		var buf bytes.Buffer
+		// var buf bytes.Buffer
 
-		xml.Escape(&buf, []byte(val.String()))
+		// xml.Escape(&buf, []byte(val.String()))
 
 		if _, ok := val.Interface().(Base64); ok {
-			b = []byte(fmt.Sprintf("<base64>%s</base64>", buf.String()))
+			b = []byte(fmt.Sprintf("<base64>%s</base64>", val.String()))
 		} else {
-			b = []byte(fmt.Sprintf("<string>%s</string>", buf.String()))
+			b = []byte(fmt.Sprintf("<string>%s</string>", val.String()))
 		}
 	default:
 		return nil, fmt.Errorf("xmlrpc encode error: unsupported type")

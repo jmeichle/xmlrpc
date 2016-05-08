@@ -34,6 +34,10 @@ func (r *Response) Failed() bool {
 	return faultRx.Match(r.data)
 }
 
+func (r *Response) RawData() []byte {
+	return r.data
+}
+
 func (r *Response) Err() error {
 	failedResp := new(failedResponse)
 	if err := unmarshal(r.data, failedResp); err != nil {

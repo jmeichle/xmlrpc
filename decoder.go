@@ -109,7 +109,6 @@ func (dec *decoder) decodeValue(val reflect.Value) error {
 			}
 		}
 	}
-
 	switch typeName {
 	case "struct":
 		ismap := false
